@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { IntentService } from '../services/intents.service';
-
+import { Intent } from '../model/models';
 @Component({
   selector: 'app-itents',
   templateUrl: './itents.component.html',
@@ -13,31 +12,40 @@ export class ItentsComponent implements OnInit {
   searchQuery: string = '';
   agentId: string = '';
 
-  constructor(private intentService: IntentService, private route: ActivatedRoute) {}
+  constructor(private intentService: IntentService) {}
 
   ngOnInit(): void {
-    // Get agentId from the route
-    this.route.paramMap.subscribe((params) => {
-      this.agentId = params.get('id') || '';
-      if (this.agentId) {
-        this.loadIntents();
-      } else {
-        console.error('No agentId found in the route!');
-      }
-    });
+    // Get agentId from localStorage
+    this.agentId = localStorage.getItem('agentId') || '';
+    if (this.agentId) {
+      this.loadIntents();
+    } else {
+      console.error('No agentId found in localStorage!');
+    }
   }
 
   loadIntents(): void {
     this.intentService.getIntents(this.agentId).subscribe({
-      next: (data) => {
-        this.intents = data;
-        this.filteredIntents = data; 
+      next: (data: Intent[]) => {
+        this.intents = data.map((intent: Intent) => ({
+          name: intent.displayName || 'No Name',
+          description: intent.trainingPhrases?.length
+            ? 'Contains training phrases'
+            : 'No description',
+          usedBy: '—',
+          confidence: 'good',
+          lastEditor: 'You',
+          updated: 'A month ago',
+        }));
+        this.filteredIntents = [...this.intents];
       },
       error: (err) => {
         console.error('Error fetching intents:', err);
-      }
+      },
     });
   }
+
+
 
   searchIntents(): void {
     this.filteredIntents = this.intents.filter((intent) =>

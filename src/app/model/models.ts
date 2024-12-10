@@ -26,3 +26,9 @@ export interface Workflow {
   nodes: Node[];
   connections: Connection[];
 }
+
+export interface Intent {
+  displayName: string;
+  trainingPhrases?: string[];
+}
+

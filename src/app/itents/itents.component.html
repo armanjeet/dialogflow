@@ -27,11 +27,11 @@
     <tbody>
       <tr *ngFor="let intent of filteredIntents">
         <td>{{ intent.name }}</td>
-        <td>{{ intent.description || 'No description' }}</td>
-        <td>{{ intent.usedBy || '—' }}</td>
-        <td>{{ intent.confidence || 'good' }}</td>
-        <td>{{ intent.lastEditor || '—' }}</td>
-        <td>{{ intent.updated || '—' }}</td>
+        <td>{{ intent.description }}</td>
+        <td>{{ intent.usedBy }}</td>
+        <td>{{ intent.confidence }}</td>
+        <td>{{ intent.lastEditor }}</td>
+        <td>{{ intent.updated }}</td>
       </tr>
     </tbody>
   </table>
