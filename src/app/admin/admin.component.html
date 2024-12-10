@@ -1,0 +1,133 @@
+<div class="admin-container">
+  <!-- Top Navigation Bar -->
+  <div class="top-nav">
+    <ul>
+      <li class="active">Agents</li>
+      <li>Chatbots</li>
+      <li>Groups</li>
+      <li>Suspended agents</li>
+    </ul>
+    <button class="invite-button" (click)="openCreateAgentDialog()">+ Invite agents</button>
+  </div>
+
+  <!-- Search and Filter Section -->
+  <div class="search-filter">
+    <input type="text" placeholder="Search agent by name or ID" class="search-bar" [(ngModel)]="searchText"
+      (input)="filterAgents()">
+    <select class="status-filter" [(ngModel)]="selectedStatus" (change)="filterAgents()">
+      <option value="">Status</option>
+      <option value="Accepting chats">Active</option>
+      <option value="Offline">Offline</option>
+      <option value="Not accepting chats">On Break</option>
+    </select>
+    <select class="role-filter" [(ngModel)]="selectedRole" (change)="filterAgents()">
+      <option value="">Role</option>
+      <option value="Agent">Agent</option>
+      <option value="Owner">Owner</option>
+      <option value="Admin">Admin</option>
+    </select>
+  </div>
+
+  <!-- Agents List -->
+  <div class="agent-list">
+    <div class="agent-item add-new" (click)="openCreateAgentDialog()">
+      <span class="add-icon">+</span>
+      <div>
+        <h3>Add new agent</h3>
+      </div>
+    </div>
+
+    <div class="agent-item" *ngFor="let agent of filteredAgents">
+      <div class="agent-info">
+        <img src="assets/pic.jpg" alt="Agent Avatar" class="avatar">
+        <div>
+          <h3>{{ agent.name }}</h3>
+          <p>{{ agent.email }}</p>
+        </div>
+      </div>
+
+      <span class="role" [ngClass]="agent.role.toLowerCase()">{{ agent.role }}</span>
+
+      <span class="status" [ngClass]="{
+        'accepting': agent.status === 'Accepting chats',
+        'not-accepting': agent.status === 'Not accepting chats',
+        'offline': agent.status === 'Offline'
+      }">
+        <span class="status-indicator"></span>
+        {{ agent.status }}
+      </span>
+
+      <!-- Action Icons -->
+      <div class="action-icons">
+        <i class="fas fa-edit" title="Edit" (click)="editAgent(agent.id)"></i>
+        <i [ngClass]="{
+              'fas fa-toggle-on': agent.status === 'Accepting chats',
+              'fas fa-toggle-off': agent.status !== 'Accepting chats'
+            }" title="Toggle Status" (click)="toggleAgentStatus(agent.id)">
+        </i>
+        <i class="fas fa-trash-alt" title="Delete" (click)="deleteAgent(agent.id)"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Profile and Details Panel -->
+  <div class="agent-details" *ngIf="selectedAgent">
+    <h2>Agent Profile</h2>
+    <p><strong>Full Name:</strong> {{ selectedAgent.name }}</p>
+    <p><strong>Email:</strong> {{ selectedAgent.email }}</p>
+    <p><strong>Phone Number:</strong> {{ selectedAgent.phoneNumber || 'N/A' }}</p>
+    <p><strong>Assigned Departments:</strong> {{ selectedAgent.departments || 'N/A' }}</p>
+    <p><strong>Total Resolved Conversations:</strong> {{ selectedAgent.totalResolved || 'N/A' }}</p>
+    <p><strong>Average Response Time:</strong> {{ selectedAgent.avgResponseTime || 'N/A' }}</p>
+    <p><strong>Average Resolution Time:</strong> {{ selectedAgent.avgResolutionTime || 'N/A' }}</p>
+
+    <div class="performance-metrics">
+      <h3>Performance Over Time</h3>
+      <div class="performance-chart"></div>
+      <h3>Customer Satisfaction</h3>
+      <p>{{ selectedAgent.feedback || 'No feedback available' }}</p>
+    </div>
+
+    <div class="agent-actions">
+      <button (click)="editAgent(selectedAgent)">Edit Agent</button>
+      <button (click)="toggleAgentStatus(selectedAgent)">
+        {{ selectedAgent.status === 'Active' ? 'Deactivate' : 'Activate' }} Agent
+      </button>
+      <button (click)="deleteAgent(selectedAgent)">Delete Agent</button>
+    </div>
+  </div>
+
+  <!-- Create Agent Dialog -->
+  <div class="create-agent-dialog-overlay" *ngIf="isCreateAgentDialogOpen">
+    <div class="create-agent-dialog">
+      <h2>Create New Agent</h2>
+      <div class="dialog-content">
+        <label>
+          Display Name:
+          <input type="text" [(ngModel)]="agent.displayName" />
+        </label>
+        <label>
+          Default Language Code:
+          <input type="text" [(ngModel)]="agent.defaultLanguageCode" />
+        </label>
+        <label>
+          Time Zone:
+          <input type="text" [(ngModel)]="agent.timeZone" />
+        </label>
+        <label>
+          Description:
+          <input type="text" [(ngModel)]="agent.description" />
+        </label>
+        <label>
+          Avatar URI:
+          <input type="text" [(ngModel)]="agent.avatarUri" />
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button (click)="saveAgent()">Save</button>
+        <button (click)="closeCreateAgentDialog()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div>

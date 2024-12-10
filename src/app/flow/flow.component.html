@@ -1,0 +1,55 @@
+<div class="workflow-editor">
+  <!-- Toolbox -->
+  <div class="toolbox">
+    <h3>Toolbox</h3>
+    <div *ngFor="let element of toolboxElements" class="toolbox-item" cdkDrag [cdkDragData]="element"
+      (cdkDragReleased)="addNode(element, $event)" cdkDragPreview>
+      {{ element.name }}
+    </div>
+
+  </div>
+
+  <!-- Canvas -->
+  <div class="canvas">
+    <div class="workflow-canvas" cdkDropList (cdkDropListDropped)="onDrop($event)">
+      <div *ngFor="let node of nodes" class="workflow-node" [style.top.px]="node.position.top"
+        [style.left.px]="node.position.left" cdkDrag [id]="node.id" (click)="selectNode(node)">
+        {{ node.title || node.type }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Properties Panel -->
+  <div class="properties-panel" *ngIf="selectedNode">
+    <h3>Node Properties</h3>
+    <label>
+      Title:
+      <input [(ngModel)]="selectedNode.title" />
+    </label>
+    <label *ngIf="selectedNode.type === 'message'">
+      Message Content:
+      <textarea [(ngModel)]="selectedNode.content" placeholder="Enter message content"></textarea>
+    </label>
+    <label *ngIf="selectedNode.type === 'input'">
+      Input Placeholder:
+      <input [(ngModel)]="selectedNode.content" placeholder="Enter input prompt" />
+    </label>
+  </div>
+</div>
+
+<!-- Chat Preview -->
+<div class="chat-preview">
+  <h3>Chat Preview</h3>
+  <div *ngFor="let message of chatMessages" class="chat-message">
+    {{ message }}
+  </div>
+  <div *ngIf="currentNodeId && getCurrentOptions()?.length">
+    <button *ngFor="let option of getCurrentOptions()" (click)="handleOptionSelection(option)">
+      {{ option.label }}
+    </button>
+  </div>
+  <input type="text" *ngIf="!getCurrentOptions()?.length" [(ngModel)]="userInput" (keyup.enter)="sendMessage()"
+    placeholder="Type your message..." />
+</div>
+<button (click)="saveWorkflow()">Save Workflow</button>
+<button (click)="loadWorkflow()">Load Workflow</button>

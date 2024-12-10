@@ -1,0 +1,104 @@
+<div class="create-agent-container">
+  <div class="stepper">
+    <div class="step" [class.active]="activeStep === 0" [class.completed]="completedSteps[0]">
+      <span class="step-number">{{ completedSteps[0] ? '✔' : 1 }}</span>
+      <span>Agent Info</span>
+    </div>
+    <div class="step" [class.active]="activeStep === 1" [class.completed]="completedSteps[1]">
+      <span class="step-number">{{ completedSteps[1] ? '✔' : 2 }}</span>
+      <span>Import Knowledge</span>
+    </div>
+    <div class="step" [class.active]="activeStep === 2" [class.completed]="completedSteps[2]">
+      <span class="step-number">{{ completedSteps[2] ? '✔' : 3 }}</span>
+      <span>Talk to Your Agent</span>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2>{{ steps[activeStep].title }}</h2>
+    <p>{{ steps[activeStep].description }}</p>
+
+    <form *ngIf="currentForm" [formGroup]="currentForm" (ngSubmit)="onSubmit()">
+      <!-- Dynamic Form Fields -->
+      <ng-container [ngSwitch]="activeStep">
+        <ng-container *ngSwitchCase="0">
+          <!-- Agent Info Fields -->
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" formControlName="displayName" placeholder="Enter agent name" />
+            <div *ngIf="currentForm.controls['displayName'].invalid && currentForm.controls['displayName'].touched"
+              class="error">
+              Name is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="defaultLanguage">Default Language</label>
+            <select id="defaultLanguage" formControlName="defaultLanguageCode">
+              <option *ngFor="let lang of languages" [value]="lang.languageCode">
+                {{ lang.displayName }}
+              </option>
+            </select>
+            <div
+              *ngIf="currentForm.controls['defaultLanguageCode'].invalid && currentForm.controls['defaultLanguageCode'].touched"
+              class="error">
+              Default language is required.
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="1">
+          <!-- Import Knowledge Fields -->
+          <div class="form-group">
+            <label for="knowledgeUrl">Knowledge Base URL</label>
+            <input id="knowledgeUrl" formControlName="knowledgeUrl" placeholder="Enter knowledge base URL" />
+            <div *ngIf="currentForm.controls['knowledgeUrl'].invalid && currentForm.controls['knowledgeUrl'].touched"
+              class="error">
+              URL is required.
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="2">
+          <!-- Talk to Your Agent Fields -->
+          <div class="form-group">
+            <label for="timeZone">Time Zone</label>
+            <select id="timeZone" formControlName="timeZone">
+              <option *ngFor="let zone of timeZones" [ngValue]="zone">{{ zone.displayName }}</option>
+            </select>
+            <div *ngIf="currentForm.controls['timeZone'].invalid && currentForm.controls['timeZone'].touched"
+              class="error">
+              Time zone is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="avatarUri">Avatar URL</label>
+            <input id="avatarUri" formControlName="avatarUri" placeholder="Enter avatar URL" />
+            <div *ngIf="currentForm.controls['avatarUri'].invalid && currentForm.controls['avatarUri'].touched"
+              class="error">
+              Avatar URL is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description" placeholder="Enter agent description"></textarea>
+            <div *ngIf="currentForm.controls['description'].invalid && currentForm.controls['description'].touched"
+              class="error">
+              Description is required.
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <div class="actions">
+        <button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
+        <button type="button" class="prev-btn" (click)="prevStep()" [disabled]="activeStep === 0">Back</button>
+        <button type="button" class="next-btn" (click)="onNext()">
+          {{ activeStep === steps.length - 1 ? 'Finish' : 'Next' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

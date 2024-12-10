@@ -1,0 +1,84 @@
+<div class="agent-page">
+  <!-- <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Agent</h3>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#" class="active">Knowledge</a></li>
+        <li><a href="#">Workflows</a></li>
+        <li>
+          <h4>Content</h4>
+          <ul>
+            <li><a href="#">Messages <span class="count">12</span></a></li>
+            <li><a href="#">Prompts <span class="count">6</span></a></li>
+            <li><a href="#">Components <span class="count">1</span></a></li>
+            <li><a href="#">Events <span class="count">0</span></a></li>
+            <li><a href="#">Variables <span class="count">17</span></a></li>
+            <li><a href="#">Functions <span class="count">0</span></a></li>
+          </ul>
+        </li>
+        <li>
+          <h4>Natural Language</h4>
+          <ul>
+            <li><a href="#">Intents <span class="count">4</span></a></li>
+            <li><a href="#">Entities <span class="count">0</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div> -->
+
+  <div class="main-content">
+    <header class="content-header">
+      <div class="header-left">
+        <h2>All workflows ({{workflows.length}})</h2>
+      </div>
+      <div class="header-right">
+        <div class="search-box">
+          <input type="text" placeholder="Search workflows">
+        </div>
+        <button class="btn-canvas">Go to canvas</button>
+        <button class="btn-primary" (click)="createNewWorkflow()">New workflow</button>
+      </div>
+    </header>
+
+    <table class="workflows-table">
+      <thead>
+        <tr>
+          <th class="checkbox-col"><input type="checkbox" (change)="toggleAllSelection($event)"></th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Triggers</th>
+          <th>Status</th>
+          <th>Assignee</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let workflow of workflows">
+          <td><input type="checkbox" [(ngModel)]="workflow.selected"></td>
+          <td>
+            <a (click)="startWorkflow(workflow.flowId)" class="workflow-name">
+              {{workflow.flowName}}
+            </a>
+          </td>
+          <td>{{workflow.description || 'No description'}}</td>
+          <td>
+            <a (click)="startWorkflow(workflow.flowId)" class="trigger-link">
+              Start
+            </a>
+          </td>
+          <td>
+            <span class="status-badge" [class.status-none]="!workflow.status">
+              {{workflow.status || 'None'}}
+            </span>
+          </td>
+          <td>{{workflow.assignee || '—'}}</td>
+          <td>{{workflow.updated | date:'short' || 'Just now'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

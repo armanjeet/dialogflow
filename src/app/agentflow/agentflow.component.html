@@ -1,0 +1,49 @@
+<div class="agent-page">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <h3>Agent</h3>
+    <ul>
+      <li>
+        <a (click)="selectSection('knowledge')" [class.active]="selectedSection === 'knowledge'">
+          Knowledge
+        </a>
+      </li>
+      <li>
+        <a (click)="selectSection('workflows')" [class.active]="selectedSection === 'workflows'">
+          Workflows
+        </a>
+      </li>
+    </ul>
+    <h4>Content</h4>
+    <ul>
+      <li>
+        <a (click)="selectSection('messages')" [class.active]="selectedSection === 'messages'">
+          Messages
+        </a>
+      </li>
+      <li>
+        <a (click)="selectSection('prompts')" [class.active]="selectedSection === 'prompts'">
+          Prompts
+        </a>
+      </li>
+    </ul>
+    <h4>Natural Language</h4>
+    <ul>
+      <li>
+        <a (click)="selectSection('intents')" [class.active]="selectedSection === 'intents'">
+          Intents
+        </a>
+      </li>
+      <li>
+        <a (click)="selectSection('entities')" [class.active]="selectedSection === 'entities'">
+          Entities
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content with Router Outlet -->
+  <div class="main-content">
+    <router-outlet></router-outlet> <!-- Load components based on selected route -->
+  </div>
+</div>

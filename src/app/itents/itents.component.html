@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="header">
+    <h2>All Intents</h2>
+    <div class="actions">
+      <input
+        type="text"
+        class="search-bar"
+        placeholder="Search intents"
+        [(ngModel)]="searchQuery"
+        (input)="searchIntents()"
+      />
+      <button class="new-intent-btn" (click)="createNewIntent()">New Intent</button>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Used by</th>
+        <th>Confidence</th>
+        <th>Last editor</th>
+        <th>Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let intent of filteredIntents">
+        <td>{{ intent.name }}</td>
+        <td>{{ intent.description || 'No description' }}</td>
+        <td>{{ intent.usedBy || '—' }}</td>
+        <td>{{ intent.confidence || 'good' }}</td>
+        <td>{{ intent.lastEditor || '—' }}</td>
+        <td>{{ intent.updated || '—' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

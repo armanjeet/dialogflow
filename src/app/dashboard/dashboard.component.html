@@ -1,0 +1,60 @@
+<div class="dashboard-container">
+  <!-- Metrics Overview Panel -->
+  <div class="metrics-panel">
+    <div class="metric-card">
+      <h4>Total Active Users</h4>
+      <p>{{ totalActiveUsers }}</p>
+    </div>
+    <div class="metric-card">
+      <h4>Total Chats/Conversations</h4>
+      <p>{{ totalChats }}</p>
+    </div>
+    <div class="metric-card">
+      <h4>Agent Performance</h4>
+      <p>Avg Response: {{ avgResponseTime }} min</p>
+      <p>Resolution Rate: {{ resolutionRate }}%</p>
+    </div>
+    <div class="metric-card">
+      <h4>User Engagement</h4>
+      <p>Interactions/User: {{ interactionsPerUser }}</p>
+      <p>CSAT Score: {{ csatScore }}%</p>
+    </div>
+  </div>
+
+  <!-- Charts and Graphs Section -->
+  <div class="charts-section">
+    <div class="chart-card">
+      <h5>Conversation Trends</h5>
+      <ngx-charts-line-chart [view]="[700, 400]" [scheme]="colorScheme" [results]="conversationTrendsData"
+        [gradient]="true" [xAxis]="true" [yAxis]="true" [legend]="false" [showXAxisLabel]="true" [showYAxisLabel]="true"
+        xAxisLabel="Time" yAxisLabel="Conversations">
+      </ngx-charts-line-chart>
+
+    </div>
+    <div class="chart-card">
+      <h5>User Demographics</h5>
+      <ngx-charts-pie-chart [view]="[700, 400]" [scheme]="colorScheme" [results]="userDemographicsData" [legend]="true"
+        [doughnut]="true">
+      </ngx-charts-pie-chart>
+    </div>
+    <div class="chart-card">
+      <h5>Agent Performance Over Time</h5>
+      <ngx-charts-bar-vertical [view]="[700, 400]" [scheme]="colorScheme" [results]="agentPerformanceData"
+        [gradient]="true" [xAxis]="true" [yAxis]="true" [legend]="false" [showXAxisLabel]="true" [showYAxisLabel]="true"
+        xAxisLabel="Time" yAxisLabel="Performance">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+
+  <!-- Activity Feed and Notifications -->
+  <div class="activity-feed">
+    <h5>Recent Activity</h5>
+    <ul>
+      <li *ngFor="let activity of recentActivities">{{ activity }}</li>
+    </ul>
+    <h5>Notifications</h5>
+    <ul>
+      <li *ngFor="let notification of notifications">{{ notification }}</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div>
+  <h1>Create a New Flow</h1>
+
+  <form (ngSubmit)="createFlow()">
+    <div class="form-group">
+      <label for="flowName">Flow Name</label>
+      <input
+        type="text"
+        id="flowName"
+        [(ngModel)]="newFlowName"
+        name="flowName"
+        class="form-control"
+        placeholder="Enter flow name"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="flowDescription">Description</label>
+      <textarea
+        id="flowDescription"
+        [(ngModel)]="newFlowDescription"
+        name="flowDescription"
+        class="form-control"
+        rows="3"
+        placeholder="Enter flow description"
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Flow</button>
+  </form>
+</div>

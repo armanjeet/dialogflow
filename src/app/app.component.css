@@ -1,0 +1,36 @@
+/* Normal Layout */
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 240px;
+  margin-top: 50px;
+  padding: 24px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+/* Adjust for pages without a sidebar */
+.no-sidebar .main-content {
+  margin-left: 0;
+}
+
+
+/* Login Page Layout */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container .main-content {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 400px;
+}

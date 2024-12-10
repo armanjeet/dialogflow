@@ -1,0 +1,103 @@
+<div class="workflow-container">
+  <!-- Toolbox -->
+  <aside class="sidebar">
+    <h2>Toolbox</h2>
+    <div class="toolbox">
+      <div draggable="true" class="tool-item" *ngFor="let element of elements" [attr.data-name]="element.name"
+        (dragstart)="onDragStart($event, element)">
+        {{ element.name }}
+      </div>
+    </div>
+  </aside>
+
+  <!-- Workflow Canvas -->
+  <div #canvas class="canvas" (drop)="onDrop($event)" (dragover)="allowDrop($event)">
+    <svg class="connector-overlay">
+      <path *ngFor="let connector of connectors" [attr.d]="connector" stroke="#ddd" fill="transparent" />
+    </svg>
+
+    <div *ngFor="let node of nodes" [style.left.px]="node.x" [style.top.px]="node.y" [attr.id]="'node-' + node.id"
+    class="node-panel" [attr.data-id]="node.id" [attr.data-name]="node.name" (dblclick)="getPage(+node.id)"
+    (click)="selectNode(node)" (mousedown)="onNodeMouseDown($event, node)" (contextmenu)="onRightClick($event, node)">
+      <div class="message-card">
+        <div class="message-header">
+          <h4>{{ node.name }}</h4>
+        </div>
+        <p class="message-content">{{ node.content }}</p>
+        <div *ngIf="node.options.length > 0" class="options">
+          <button *ngFor="let option of node.options" class="option-button">
+            {{ option.label }}
+          </button>
+        </div>
+        <p class="next-step">Next Step</p>
+      </div>
+    </div>
+  </div> <!-- Close the canvas div -->
+
+  <!-- Properties Panel -->
+  <aside class="properties-panel" *ngIf="selectedNode">
+    <h2>Edit Node</h2>
+    <p>Node ID: {{ selectedNode.id }}</p>
+
+    <label>Message</label>
+    <input type="text" [(ngModel)]="selectedNode.content" />
+    <h3>Options</h3>
+    <div *ngFor="let option of selectedNode.options">
+      <label>Option Label:</label>
+      <input type="text" [(ngModel)]="option.label" /> <!-- Edit option -->
+      <button (click)="deleteOption(selectedNode, option)">Delete Option</button>
+    </div>
+
+    <button (click)="saveEditedNode(selectedNode)">Save Changes</button> <!-- Save the changes -->
+  </aside>
+
+
+  <!-- Preview Button and Panel -->
+  <div class="workflow-container">
+    <button class="preview-button" (click)="togglePreview()">Preview</button>
+    <div *ngIf="isPreviewVisible" class="preview-panel" #previewPanel (mousedown)="startDrag($event)">
+    </div>
+
+    <!-- Add Save Button -->
+    <button class="save-button" (click)="saveWorkflowToBackend()">Save Workflow</button>
+  </div>
+
+  <!-- Context Menu -->
+  <div *ngIf="contextMenuVisible" [style.top.px]="contextMenuPosition.y" [style.left.px]="contextMenuPosition.x"
+    class="context-menu">
+    <ul>
+      <li *ngFor="let action of contextMenuOptions" (click)="performAction(action, selectedNode)">
+        {{ action.label }}
+      </li>
+    </ul>
+  </div><!-- Example of confirmation before deleting -->
+  <div *ngIf="isDeleteConfirmationVisible">
+    <p>Are you sure you want to delete this node?</p>
+    <button (click)="confirmDelete()">Yes</button>
+    <button (click)="cancelDelete()">No</button>
+  </div>
+
+
+
+  <!-- Pages and Routes Section -->
+  <div class="workflow-info">
+    <!-- Pages -->
+    <div class="pages-section">
+      <h3>Pages</h3>
+      <ul>
+        <li *ngFor="let node of nodes">{{ node.name }}</li>
+      </ul>
+    </div>
+
+    <!-- Routes -->
+    <div class="routes-section">
+      <h3>Routes</h3>
+      <ul>
+        <li *ngFor="let conn of connections">
+          From: {{ conn.startNode.name }} → To: {{ conn.endNode.name }}
+          <span *ngIf="conn.condition"> (Condition: {{ conn.condition }})</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

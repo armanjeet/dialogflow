@@ -1,0 +1,65 @@
+<!-- <div class="agent-container">
+  <div class="sidebar">
+    <h3>Chats</h3>
+    <ul>
+      <li *ngFor="let chat of chatList" [class.active]="chat === selectedCustomer">
+        <img src="assets\pic.jpg" alt="User Icon" class="user-icon">
+        {{ chat }}
+      </li>
+    </ul>
+  </div>
+  <div class="chat-window">
+    <div class="chat-header">
+      <img src="assets\pic.jpg" alt="Customer Avatar" class="customer-avatar">
+      <span class="customer-name">{{ selectedCustomer }}</span>
+      <div class="header-actions">
+        <button class="action-btn">i</button>
+        <button class="action-btn">⋮</button>
+      </div>
+    </div>
+    <div class="chat-body">
+      <div *ngFor="let message of messages" [class.self]="message.from === 'agent'" class="chat-message">
+        <img *ngIf="message.from === 'customer'" src="assets\pic.jpg" alt="Customer Avatar" class="message-avatar">
+        <p>{{ message.text }}</p>
+        <span class="timestamp">10:30 AM</span>
+      </div>
+    </div>
+    <div class="chat-input">
+      <button class="emoji-btn">😊</button>
+      <input type="text" [(ngModel)]="newMessage" placeholder="Type a message...">
+      <button (click)="sendMessage()" class="send-btn">
+        <i class="bi bi-send"></i>
+      </button>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+<!-- agent.component.html -->
+<div class="layout">
+  <div class="main">
+    <div class="content">
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div class="agents-grid" *ngIf="agents.length > 0; else noAgentsTemplate">
+        <div class="agent-card" *ngFor="let agent of agents" (click)="navigateToWorkflow(agent.id)">
+          <div class="agent-icon"></div>
+          <div class="agent-details">
+            <h3>{{ agent.name }}</h3>
+            <p>Last edited {{ agent.lastEdited | date:'medium' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noAgentsTemplate>
+        <p>No agents available. Create a new agent to get started!</p>
+        <button (click)="navigateToCreateAgent()">Create Agent</button>
+      </ng-template>
+    </div>
+  </div>
+</div>

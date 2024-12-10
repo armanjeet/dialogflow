@@ -1,0 +1,293 @@
+/* Container */
+.admin-container {
+  padding: 20px;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+/* Top Navigation */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  font-size: 14px;
+}
+
+.top-nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+}
+
+.top-nav li {
+  cursor: pointer;
+  color: #666;
+}
+
+.top-nav li.active {
+  color: #000;
+  font-weight: bold;
+}
+
+.invite-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.invite-button:hover {
+  background-color: #0056b3;
+}
+
+/* Search and Filter */
+.search-filter {
+  margin: 10px 0;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+.search-filter .search-bar {
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+
+/* Agents List */
+.agent-list {
+  margin-top: 20px;
+}
+
+.agent-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.agent-item.add-new {
+  color: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.agent-info {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.agent-info .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+/* Role Badge */
+.role {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #fff;
+  margin-right: 15px;
+}
+
+.role.admin {
+  background-color: #007bff;
+}
+
+.role.owner {
+  background-color: #28a745;
+}
+
+.role.agent {
+  background-color: #6c757d;
+}
+
+/* Status with Indicator */
+.status {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.status.accepting .status-indicator {
+  background-color: #28a745;
+}
+
+.status.not-accepting .status-indicator {
+  background-color: #dc3545;
+}
+
+.status.offline .status-indicator {
+  background-color: #6c757d;
+}
+/* Filters */
+.status-filter, .role-filter {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+/* Agent Details */
+.agent-details {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.agent-details h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.performance-metrics {
+  margin-top: 15px;
+}
+
+.agent-actions {
+  margin-top: 20px;
+}
+
+.agent-actions button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.agent-actions button:hover {
+  background-color: #0056b3;
+}
+.agent-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  position: relative;
+}
+
+.status {
+  margin-right: 10px;
+}
+
+.action-icons {
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+}
+
+.action-icons i:hover {
+  color: #007bff;
+}
+/* Overlay for the dialog */
+.create-agent-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it's on top */
+}
+
+/* Dialog box styling */
+.create-agent-dialog {
+  background: white;
+  padding: 20px;
+  width: 400px; /* Adjust the width as needed */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title */
+.create-agent-dialog h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+}
+
+/* Label and Input Styling */
+.create-agent-dialog label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.create-agent-dialog input,
+.create-agent-dialog select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Button Styling */
+.create-agent-dialog .dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.create-agent-dialog button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-agent-dialog button[type="button"] {
+  background-color: #f0f0f0;
+}
+
+.create-agent-dialog button[type="button"]:hover {
+  background-color: #e0e0e0;
+}
+
+.create-agent-dialog button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+.create-agent-dialog button[type="submit"]:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,42 @@
+<!-- Minimized Chat Icon -->
+<div class="chat-widget" (click)="toggleChat()" *ngIf="!isChatOpen">
+  <i class="bi bi-envelope"></i>
+</div>
+
+<!-- Chat Box -->
+<div class="chat-box" *ngIf="isChatOpen">
+  <div class="chat-header">
+    <img src="assets\pic.jpg" alt="Agent Avatar" class="agent-avatar">
+    <span class="agent-name">Mike</span>
+    <button class="close-btn" (click)="toggleChat()">✕</button>
+  </div>
+
+  <div class="chat-body" #chatBody>
+    <div *ngFor="let message of messages" class="chat-message" [ngClass]="{'self': message.from === 'customer', 'agent': message.from === 'agent'}">
+      {{ message.text }}
+    </div>
+    <!-- Quick Replies -->
+    <div *ngIf="showQuickReplies" class="quick-replies">
+      <button (click)="handleQuickReply('Yes, please')">Yes, please</button>
+      <button (click)="handleQuickReply('No, thanks')">No, thanks</button>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <!-- Emoji button (no click event for now) -->
+    <button class="emoji-btn">
+      😊
+    </button>
+
+    <!-- Text input field -->
+    <input type="text" [(ngModel)]="newMessage" placeholder="Type a message...">
+
+    <!-- Send button with Bootstrap icon -->
+    <button (click)="sendMessage()" class="send-btn">
+      <i class="bi bi-send"></i>
+    </button>
+  </div>
+
+
+
+</div>

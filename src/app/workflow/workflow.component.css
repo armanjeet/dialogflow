@@ -1,0 +1,253 @@
+.workflow-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.toolbox .tool-item {
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 10px;
+  background-color: #e0f4ff;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.canvas {
+  flex: 1;
+  position: relative;
+  background-color: #f7f8fa;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.node-panel {
+  position: absolute;
+  width: 240px;
+  font-size: 14px;
+  color: #333;
+}
+
+.message-card {
+  background-color: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.platform-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.message-card h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.message-content {
+  font-size: 14px;
+  color: #666;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.option-button {
+  background-color: #f2f2f2;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.option-button:hover {
+  background-color: #e0e0e0;
+}
+
+.next-step {
+  font-size: 12px;
+  color: #888;
+  margin-top: 15px;
+}
+
+.message-card h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.message-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 8px 0;
+}
+
+.message-card .options button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 15px;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.message-card .options button:hover {
+  background-color: #0056b3;
+}
+
+.properties-panel {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.preview-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.preview-button:hover {
+  background-color: #0056b3;
+}
+
+.preview-panel {
+  position: fixed;
+  width: 300px;
+  height: 500px;
+  top: 20px;
+  right: 20px;
+  background-color: #333333;
+  border: 1px solid #555;
+  border-radius: 8px;
+  z-index: 1000;
+  cursor: move;
+}
+
+.preview-mobile {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: auto;
+}
+
+.preview-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.preview-content {
+  color: #aaaaaa;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+/* Chat bubble styling */
+.message-bubble-user {
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 10px 0;
+  max-width: 70%;
+  text-align: left;
+  align-self: flex-start;
+}
+
+.message-bubble-ai {
+  background-color: #e0e0e0;
+  color: #333;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 10px 0;
+  max-width: 70%;
+  text-align: left;
+  align-self: flex-end;
+}
+
+.preview-options button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 15px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.preview-options button:hover {
+  background-color: #0056b3;
+}
+
+.connector-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #d9363e;
+}

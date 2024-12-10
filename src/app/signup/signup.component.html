@@ -1,0 +1,47 @@
+<div class="signup-container">
+  <h1>Create account</h1>
+
+  <button class="google-signup">
+    <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" />
+    Sign up with Google
+  </button>
+
+  <div class="separator">
+    <span>OR</span>
+  </div>
+
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="username">Username*</label>
+      <input type="text" id="username" formControlName="username" placeholder="Enter your username" />
+      <div *ngIf="signupForm.get('username')?.touched && signupForm.get('username')?.invalid">
+        <small *ngIf="signupForm.get('username')?.errors?.['required']">Username is required.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email*</label>
+      <input type="email" id="email" formControlName="email" placeholder="Enter your email" />
+      <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid">
+        <small *ngIf="signupForm.get('email')?.errors?.['required']">Email is required.</small>
+        <small *ngIf="signupForm.get('email')?.errors?.['email']">Please enter a valid email address.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password*</label>
+      <input type="password" id="password" formControlName="password" placeholder="Create a password" />
+      <small>Must be at least 8 characters.</small>
+      <div *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.invalid">
+        <small *ngIf="signupForm.get('password')?.errors?.['required']">Password is required.</small>
+        <small *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</small>
+      </div>
+    </div>
+
+    <button type="submit" class="create-account">Create account</button>
+  </form>
+
+  <p class="login-text">
+    Already have an account? <a routerLink="/login">Log in</a>
+  </p>
+</div>
