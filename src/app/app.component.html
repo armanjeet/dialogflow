@@ -1,9 +1,18 @@
-<div [ngClass]="{ 'app-container': showLayout, 'login-container': !showLayout }">
-  <app-topbar *ngIf="showLayout" (simulateLoading)="simulateLoading()"></app-topbar>
-  <app-sidebar *ngIf="showLayout"></app-sidebar>
+<div
+  [ngClass]="{
+    'app-container': showLayout,
+    'login-container': !showLayout,
+    'sidebar-collapsed': isSidebarCollapsed
+  }"
+>
+  <app-topbar *ngIf="showLayout"></app-topbar>
+  <app-sidebar
+    *ngIf="showLayout"
+    (resizeSidebar)="updateSidebarState($event)"
+  ></app-sidebar>
   <main class="main-content">
     <router-outlet></router-outlet>
   </main>
 </div>
-
+<app-toast></app-toast>
 <app-loader></app-loader>

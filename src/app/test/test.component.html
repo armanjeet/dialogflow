@@ -1,0 +1,128 @@
+<div class="app-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div *ngFor="let category of categories" class="sidebar-section">
+      <h3 class="section-title">{{ category | titlecase }}</h3>
+      <div
+        cdkDropList
+        [cdkDropListData]="AVAILABLE_COMPONENTS[category]"
+        [cdkDropListConnectedTo]="groupIds"
+        class="component-list"
+      >
+        <div
+          *ngFor="let component of AVAILABLE_COMPONENTS[category]"
+          cdkDrag
+          class="component-item"
+        >
+          <i class="icon" [ngClass]="component.icon"></i>
+          {{ component.type }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <div class="nav-items">
+        <button class="nav-item active">Flow</button>
+        <button class="nav-item">Theme</button>
+        <button class="nav-item">Settings</button>
+        <button class="nav-item">Share</button>
+      </div>
+      <div class="action-buttons">
+        <button class="preview-btn" (click)="togglePreview()">
+          {{ isPreviewMode ? 'Preview' : 'Preview' }}
+        </button>
+        <button class="publish-btn">Publish</button>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <!-- Canvas with zoom functionality -->
+      <div class="canvas" [ngStyle]="{ transform: 'scale(' + zoomLevel + ')' }" (wheel)="onWheel($event)" (touchstart)="onTouchStart($event)">
+        <!-- Start Card -->
+        <div class="start-card">
+          <div class="card-header">Start</div>
+          <div class="card-content">
+            <div class="component-item">
+              <input
+                [(ngModel)]="flow.startMessage"
+                (blur)="saveFlow()"
+                placeholder="Welcome message"
+                class="editable-input"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Flow Groups -->
+        <div class="flow-groups">
+          <div *ngFor="let group of flow.groups; let i = index" class="flow-group">
+            <div class="group-header">
+              <span>{{ group.name }}</span>
+              <button class="delete-group-btn" (click)="deleteGroup(group)">×</button>
+            </div>
+            <div
+              cdkDropList
+              [id]="group.id"
+              [cdkDropListData]="group.components"
+              [cdkDropListConnectedTo]="getAllListIds()"
+              (cdkDropListDropped)="drop($event)"
+              class="group-content"
+            >
+              <div *ngFor="let component of group.components" cdkDrag class="flow-component">
+                <ng-container *ngIf="component.type !== 'Text'">
+                  <div class="component-content">
+                    {{ component.content }}
+                  </div>
+                </ng-container>
+                <input
+                  *ngIf="component.type === 'Text'"
+                  [(ngModel)]="component.content"
+                  (blur)="saveFlow()"
+                  class="editable-input"
+                />
+                <div class="component-actions">
+                  <button (click)="deleteComponent(group, component)">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="add-group-container">
+        <button class="add-group-btn" (click)="addGroup()">+ Add Group</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="preview-container" *ngIf="isPreviewMode">
+    <div class="chat-window">
+      <div *ngFor="let message of chatHistory" class="chat-message">
+        <div
+          [ngClass]="{
+            'message-bot': message.sender === 'bot',
+            'message-user': message.sender === 'user'
+          }"
+        >
+          {{ message.text }}
+        </div>
+      </div>
+      <div *ngIf="isTyping" class="typing-indicator">Bot is typing...</div>
+      <div class="chat-input">
+        <input
+          type="text"
+          [(ngModel)]="userInput"
+          placeholder="Type your message..."
+        />
+        <button (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+

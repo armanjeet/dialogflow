@@ -38,7 +38,9 @@ import { MessagesComponent } from './messages/messages.component';
 import { LoaderComponent } from './loader/loader.component';
 import { KnowledgeComponent } from './knowledge/knowledge.component';
 import { PromptComponent } from './prompt/prompt.component';
-
+import { ToastComponent } from './toast/toast.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TestComponent } from './test/test.component'; // Import Tooltip Module
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +65,9 @@ import { PromptComponent } from './prompt/prompt.component';
     MessagesComponent,
     LoaderComponent,
     KnowledgeComponent,
-    PromptComponent
+    PromptComponent,
+    ToastComponent,
+    TestComponent
 
   ],
   imports: [
@@ -81,6 +85,7 @@ import { PromptComponent } from './prompt/prompt.component';
     ToastrModule,
     MatSnackBarModule,
     HttpClientModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     DragDropModule,
     ToastrModule.forRoot({

@@ -1,42 +1,23 @@
-<!-- sidebar.component.html -->
-<nav class="sidebar" [class.sidebar--collapsed]="!isSidebarVisible">
+<nav class="sidebar" [class.sidebar--collapsed]="!isSidebarExpanded">
   <a class="sidebar-brand" href="#">Regen</a>
   <ul class="sidebar-nav">
-    <li class="sidebar-item">
-      <a class="sidebar-link" (click)="navigateTo('admin')" data-tooltip="Admin">
-        <i class="material-icons">admin_panel_settings</i>
-        <span class="sidebar-link-text">Admin</span>
-      </a>
-    </li>
-    <li class="sidebar-item">
-      <a class="sidebar-link" (click)="navigateTo('agent')" data-tooltip="Agent">
-        <i class="material-icons">person</i>
-        <span class="sidebar-link-text">Agent</span>
-      </a>
-    </li>
-    <li class="sidebar-item">
-      <a class="sidebar-link" (click)="navigateTo('customer')" data-tooltip="Customer">
-        <i class="material-icons">people</i>
-        <span class="sidebar-link-text">Customer</span>
-      </a>
-    </li>
-    <li class="sidebar-item">
-      <a class="sidebar-link" (click)="navigateTo('workflow')" data-tooltip="Workflow">
-        <i class="material-icons">account_tree</i>
-        <span class="sidebar-link-text">Workflow</span>
-      </a>
-    </li>
-    <li class="sidebar-item">
-      <a class="sidebar-link" (click)="navigateTo('dashboard')" data-tooltip="Dashboard">
-        <i class="material-icons">dashboard</i>
-        <span class="sidebar-link-text">Dashboard</span>
+    <li class="sidebar-item" *ngFor="let item of menuItems">
+      <a
+        class="sidebar-link"
+        (click)="navigateTo(item.route)"
+        [title]="!isSidebarExpanded ? item.tooltip : ''"
+        matTooltip="{{ isSidebarExpanded ? '' : item.tooltip }}"
+        matTooltipPosition="right"
+      >
+        <i class="material-icons">{{ item.icon }}</i>
+        <span class="sidebar-link-text" *ngIf="isSidebarExpanded">{{ item.text }}</span>
       </a>
     </li>
   </ul>
 
   <div class="profile-section" (click)="toggleProfileMenu()">
     <img src="assets/pic.jpg" alt="Profile Picture" class="profile-picture">
-    <div class="profile-info">
+    <div class="profile-info" *ngIf="isSidebarExpanded">
       <div class="profile-email">armanjet123@gmail.com</div>
     </div>
     <i class="material-icons profile-icon">expand_more</i>

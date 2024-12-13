@@ -18,13 +18,14 @@ import { EntitiesComponent } from './entities/entities.component';
 import { MessagesComponent } from './messages/messages.component';
 import { PromptComponent } from './prompt/prompt.component';
 import { KnowledgeComponent } from './knowledge/knowledge.component';
+import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'agent', component: AgentComponent },
   { path: 'customer', component: CustomerComponent },
-  { path: 'Workflow/:agentId/:flowId', component: WorkflowComponent },
+  { path: 'Workflow/:agentId/:flowId', component: TestComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
@@ -36,7 +37,7 @@ const routes: Routes = [
     path: 'agentflow/agent/:id',
     component: AgentflowComponent,
     children: [
-      { path: '', redirectTo: 'workflows', pathMatch: 'full' }, 
+      { path: '', redirectTo: 'workflows', pathMatch: 'full' },
       { path: 'workflows', component: WorkflowIstComponent },
       { path: 'knowledge', component: KnowledgeComponent },
       { path: 'messages', component: MessagesComponent },

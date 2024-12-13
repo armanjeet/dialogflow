@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AgentService } from '../services/agent.service';
 import { Router } from '@angular/router';
+import { LoaderService } from '../services/loader.service';
+import { ToastService } from '../services/toast.service'; // Add ToastService
+
 @Component({
   selector: 'app-create-agent',
   templateUrl: './create-agent.component.html',
@@ -24,7 +27,9 @@ export class CreateAgentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private agentService: AgentService,
-    private router : Router
+    private router: Router,
+    private loaderService: LoaderService,
+    private toastService: ToastService // Inject ToastService
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +102,7 @@ export class CreateAgentComponent implements OnInit {
         this.onSubmit(); // Submit the form if it's the last step
       }
     } else {
-      alert('Please fill in all required fields before proceeding.');
+      this.toastService.show('Please fill in all required fields before proceeding.', 'warning'); // Show warning toast
     }
   }
 
@@ -116,19 +121,25 @@ export class CreateAgentComponent implements OnInit {
 
     console.log('Submitting payload:', agentData);
 
+    this.loaderService.show(); // Show loader
+
     this.agentService.createAgent(agentData).subscribe({
       next: (response) => {
         console.log('Agent created successfully:', response);
         sessionStorage.removeItem('createAgentData'); // Clear session storage
         this.router.navigate(['agent']);
         this.resetStepper();
+        this.toastService.show('Agent created successfully!', 'success'); // Show success toast
       },
       error: (error) => {
         console.error('Error creating agent:', error);
+        this.toastService.show('Failed to create agent.', 'error'); // Show error toast
+      },
+      complete: () => {
+        this.loaderService.hide(); // Hide loader when the request completes
       },
     });
   }
-
 
   resetStepper(): void {
     this.currentForm.reset();
@@ -136,17 +147,18 @@ export class CreateAgentComponent implements OnInit {
     this.completedSteps.fill(false);
     sessionStorage.removeItem('createAgentData'); // Clear session storage
   }
+
   onCancel(): void {
     if (confirm('Are you sure you want to cancel? Unsaved data will be lost.')) {
       this.resetStepper(); // Reset the stepper and form
       sessionStorage.removeItem('createAgentData'); // Clear session storage
     }
   }
+
   prevStep(): void {
     if (this.activeStep > 0) {
       this.activeStep--; // Move to the previous step
       this.setupForm(); // Update the form for the previous step
     }
   }
-
 }

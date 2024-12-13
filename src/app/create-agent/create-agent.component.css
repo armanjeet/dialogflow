@@ -68,6 +68,11 @@
   margin-right: 15px;
 }
 
+.prev-btn {
+  margin-right: 10px;
+}
+
+
 .submit-btn {
   background-color: #007bff;
   color: white;

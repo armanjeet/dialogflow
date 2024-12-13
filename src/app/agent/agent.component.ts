@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AgentService } from '../services/agent.service';
 import { Router } from '@angular/router';
+import { LoaderService } from '../services/loader.service';
+
 interface Agent {
   id: string;
   name: string;
   lastEdited: Date;
   dateCreated: Date;
 }
+
 @Component({
   selector: 'app-agent',
   templateUrl: './agent.component.html',
@@ -19,31 +22,32 @@ export class AgentComponent implements OnInit {
   sortOption: 'lastViewed' | 'dateCreated' | 'alphabetically' = 'lastViewed';
   showSortDropdown: boolean = false;
   errorMessage: string = '';
-
+  isLoading$ = this.loaderService.isLoading$;
   constructor(
     private agentService: AgentService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private loaderService: LoaderService
+  ) {}
 
   ngOnInit(): void {
     this.fetchAgents();
-    this.filteredAgents = this.agents;
   }
 
-  // Fetch agents from the backend
   fetchAgents(): void {
+    this.loaderService.show(); // Show loader
     this.agentService.getAgents().subscribe(
       (response) => {
-        // Process agents to extract the ID from the name field
         this.agents = (response || []).map((agent: any) => ({
           ...agent,
           id: agent.name.split('/').pop(), // Extract the last part of the name
         }));
-        console.log('Agents fetched successfully:', this.agents);
+        this.filteredAgents = this.agents; // Set filtered agents
+        this.loaderService.hide(); // Hide loader
       },
       (error) => {
         console.error('Error fetching agents:', error);
         this.errorMessage = 'Failed to fetch agents. Please try again later.';
+        this.loaderService.hide(); // Hide loader on error
       }
     );
   }
@@ -52,36 +56,35 @@ export class AgentComponent implements OnInit {
     this.router.navigate(['/create-agent']);
   }
 
-  // Updated navigation to include 'workflows' section by default
   navigateToWorkflow(agentId: string): void {
     if (agentId) {
-      this.router.navigate([`/agentflow/agent/${agentId}/workflows`]).catch((err) => {
-        console.error('Navigation error:', err);
-      });
+      this.router
+        .navigate([`/agentflow/agent/${agentId}/workflows`])
+        .catch((err) => console.error('Navigation error:', err));
     } else {
       console.error('Agent ID is undefined');
     }
   }
 
-  searchAgents(query: string) {
+  searchAgents(query: string): void {
     this.searchQuery = query;
-    this.filteredAgents = this.agents.filter(agent =>
+    this.filteredAgents = this.agents.filter((agent) =>
       agent.name.toLowerCase().includes(query.toLowerCase())
     );
     this.sortAgents();
   }
 
-  toggleSortDropdown() {
+  toggleSortDropdown(): void {
     this.showSortDropdown = !this.showSortDropdown;
   }
 
-  setSortOption(option: 'lastViewed' | 'dateCreated' | 'alphabetically') {
+  setSortOption(option: 'lastViewed' | 'dateCreated' | 'alphabetically'): void {
     this.sortOption = option;
     this.showSortDropdown = false;
     this.sortAgents();
   }
 
-  private sortAgents() {
+  private sortAgents(): void {
     this.filteredAgents.sort((a, b) => {
       switch (this.sortOption) {
         case 'lastViewed':

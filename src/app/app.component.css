@@ -1,4 +1,4 @@
-/* Normal Layout */
+/* Main Layout */
 .app-container {
   display: flex;
   height: 100vh;
@@ -7,30 +7,31 @@
 
 .main-content {
   flex: 1;
-  margin-left: 240px;
+  margin-left: var(--sidebar-width, 240px); /* Use CSS variable for width */
   margin-top: 50px;
-  padding: 24px;
-  height: calc(100vh - 64px);
+  padding: 16px;
+  height: calc(100vh - 50px); /* Adjust for topbar height */
   overflow-y: auto;
+  transition: margin-left 0.2s ease, padding 0.2s ease;
 }
 
-/* Adjust for pages without a sidebar */
+.sidebar-collapsed .main-content {
+  margin-left: var(--sidebar-width, 60px); /* CSS variable ensures consistency */
+}
+
+/* Sidebar width variables for smooth transitions */
+:root {
+  --sidebar-width: 240px; /* Default expanded sidebar width */
+}
+
+.sidebar-collapsed {
+  --sidebar-width: 60px; /* Collapsed sidebar width */
+}
+
+/* Adjust for login or no-layout routes */
+.login-container .main-content,
 .no-sidebar .main-content {
   margin-left: 0;
-}
-
-
-/* Login Page Layout */
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.login-container .main-content {
-  margin: 0;
   padding: 0;
   width: 100%;
-  max-width: 400px;
 }

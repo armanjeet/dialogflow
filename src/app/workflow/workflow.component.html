@@ -1,5 +1,5 @@
-<div class="workflow-container">
-  <!-- Toolbox -->
+<!-- <div class="workflow-container">
+
   <aside class="sidebar">
     <h2>Toolbox</h2>
     <div class="toolbox">
@@ -10,7 +10,7 @@
     </div>
   </aside>
 
-  <!-- Workflow Canvas -->
+
   <div #canvas class="canvas" (drop)="onDrop($event)" (dragover)="allowDrop($event)">
     <svg class="connector-overlay">
       <path *ngFor="let connector of connectors" [attr.d]="connector" stroke="#ddd" fill="transparent" />
@@ -32,9 +32,9 @@
         <p class="next-step">Next Step</p>
       </div>
     </div>
-  </div> <!-- Close the canvas div -->
+  </div>
 
-  <!-- Properties Panel -->
+
   <aside class="properties-panel" *ngIf="selectedNode">
     <h2>Edit Node</h2>
     <p>Node ID: {{ selectedNode.id }}</p>
@@ -44,25 +44,24 @@
     <h3>Options</h3>
     <div *ngFor="let option of selectedNode.options">
       <label>Option Label:</label>
-      <input type="text" [(ngModel)]="option.label" /> <!-- Edit option -->
+      <input type="text" [(ngModel)]="option.label" />
       <button (click)="deleteOption(selectedNode, option)">Delete Option</button>
     </div>
 
-    <button (click)="saveEditedNode(selectedNode)">Save Changes</button> <!-- Save the changes -->
+    <button (click)="saveEditedNode(selectedNode)">Save Changes</button>
   </aside>
 
 
-  <!-- Preview Button and Panel -->
   <div class="workflow-container">
     <button class="preview-button" (click)="togglePreview()">Preview</button>
     <div *ngIf="isPreviewVisible" class="preview-panel" #previewPanel (mousedown)="startDrag($event)">
     </div>
 
-    <!-- Add Save Button -->
+
     <button class="save-button" (click)="saveWorkflowToBackend()">Save Workflow</button>
   </div>
 
-  <!-- Context Menu -->
+
   <div *ngIf="contextMenuVisible" [style.top.px]="contextMenuPosition.y" [style.left.px]="contextMenuPosition.x"
     class="context-menu">
     <ul>
@@ -70,7 +69,7 @@
         {{ action.label }}
       </li>
     </ul>
-  </div><!-- Example of confirmation before deleting -->
+  </div>
   <div *ngIf="isDeleteConfirmationVisible">
     <p>Are you sure you want to delete this node?</p>
     <button (click)="confirmDelete()">Yes</button>
@@ -79,9 +78,7 @@
 
 
 
-  <!-- Pages and Routes Section -->
   <div class="workflow-info">
-    <!-- Pages -->
     <div class="pages-section">
       <h3>Pages</h3>
       <ul>
@@ -89,7 +86,6 @@
       </ul>
     </div>
 
-    <!-- Routes -->
     <div class="routes-section">
       <h3>Routes</h3>
       <ul>
@@ -100,4 +96,101 @@
       </ul>
     </div>
   </div>
+</div> -->
+
+<!-- <div class="app-container">
+
+  <div class="sidebar">
+    <h3>Bubbles</h3>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Text')">Text</div>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Image')">Image</div>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Video')">Video</div>
+
+    <h3>Inputs</h3>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Text Input')">Text Input</div>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Number Input')">Number</div>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Date Input')">Date</div>
+
+    <h3>Logic</h3>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Set Variable')">Set Variable</div>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Condition')">Condition</div>
+
+    <h3>Integrations</h3>
+    <div class="component" draggable="true" (dragstart)="onDragStart($event, 'Webhook')">Webhook</div>
+  </div>
+
+
+  <div class="workflow-canvas" (drop)="onDrop($event)" (dragover)="allowDrop($event)">
+    <div class="node" *ngFor="let node of nodes; let i = index">
+      <div class="node-header">
+        <h4>{{ node.type }}</h4>
+        <button class="delete-node" (click)="deleteNode(i)">×</button>
+      </div>
+      <div class="node-content">
+
+        <textarea [(ngModel)]="node.content" placeholder="Enter message or logic here"></textarea>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="toolbar">
+    <button class="toolbar-button" (click)="openPreview()">Preview</button>
+    <button class="toolbar-button" (click)="saveWorkflow()">Publish</button>
+  </div>
+</div> -->
+
+<div class="workflow-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>Bubbles</h3>
+    <div
+      class="draggable-item"
+      *ngFor="let component of bubbleComponents"
+      cdkDrag
+      [cdkDragData]="component"
+    >
+      {{ component.icon }} {{ component.label }}
+    </div>
+
+    <h3>Inputs</h3>
+    <div
+      class="draggable-item"
+      *ngFor="let component of inputComponents"
+      cdkDrag
+      [cdkDragData]="component"
+    >
+      {{ component.icon }} {{ component.label }}
+    </div>
+
+    <h3>Logic</h3>
+    <div
+      class="draggable-item"
+      *ngFor="let component of logicComponents"
+      cdkDrag
+      [cdkDragData]="component"
+    >
+      {{ component.icon }} {{ component.label }}
+    </div>
+  </div>
+
+  <!-- Workflow Canvas -->
+  <div class="canvas" cdkDropList (cdkDropListDropped)="onDrop($event)">
+    <div class="workflow-group" *ngFor="let group of workflowGroups">
+      <h4>Group</h4>
+      <div class="workflow-item" *ngFor="let component of group.components">
+        {{ component.icon }} {{ component.label }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview -->
+  <div *ngIf="previewMode" class="preview">
+    <h3>Preview</h3>
+    <ul>
+      <li *ngFor="let message of previewMessages">{{ message }}</li>
+    </ul>
+    <button (click)="closePreview()">Close Preview</button>
+  </div>
 </div>
+

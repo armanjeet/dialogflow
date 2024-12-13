@@ -57,8 +57,10 @@
       </div>
 
       <ng-template #noAgentsTemplate>
-        <p>No agents available. Create a new agent to get started!</p>
-        <button (click)="navigateToCreateAgent()">Create Agent</button>
+        <div *ngIf="!(isLoading$ | async)">
+          <p>No agents available. Create a new agent to get started!</p>
+          <button (click)="navigateToCreateAgent()">Create Agent</button>
+        </div>
       </ng-template>
     </div>
   </div>

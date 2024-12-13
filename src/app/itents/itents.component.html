@@ -1,15 +1,21 @@
 <div class="container">
   <div class="header">
-    <h2>All Intents</h2>
+    <h2>All Intents ({{filteredIntents.length}})</h2>
     <div class="actions">
-      <input
-        type="text"
-        class="search-bar"
-        placeholder="Search intents"
-        [(ngModel)]="searchQuery"
-        (input)="searchIntents()"
-      />
-      <button class="new-intent-btn" (click)="createNewIntent()">New Intent</button>
+      <div class="search-wrapper">
+        <input
+          type="text"
+          class="search-bar"
+          placeholder="Search intents"
+          [(ngModel)]="searchQuery"
+          (input)="searchIntents()"
+        />
+      </div>
+      <button class="btn-preview">
+        <span class="icon">▶</span>
+        Preview
+      </button>
+      <button class="btn-primary" (click)="createNewIntent()">New intent</button>
     </div>
   </div>
 
@@ -26,10 +32,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let intent of filteredIntents">
-        <td>{{ intent.name }}</td>
-        <td>{{ intent.description }}</td>
-        <td>{{ intent.usedBy }}</td>
-        <td>{{ intent.confidence }}</td>
+        <td class="name-cell">{{ intent.name }}</td>
+        <td class="description-cell">{{ intent.description }}</td>
+        <td>{{ intent.usedBy || '—' }}</td>
+        <td>
+          <div class="confidence-indicator">
+            <span class="confidence-bar"></span>
+            <span class="confidence-text">{{ intent.confidence }}</span>
+          </div>
+        </td>
         <td>{{ intent.lastEditor }}</td>
         <td>{{ intent.updated }}</td>
       </tr>

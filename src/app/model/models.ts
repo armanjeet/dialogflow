@@ -31,4 +31,24 @@ export interface Intent {
   displayName: string;
   trainingPhrases?: string[];
 }
+export interface FlowComponent {
+  id: string;
+  type: string;
+  category: string;
+  content: string;
+  icon?: string;
+}
+
+export interface FlowGroup {
+  id: string;
+  name: string;
+  components: FlowComponent[];
+}
+
+export interface Flow {
+  startMessage: string;
+  groups: FlowGroup[];
+}
+
+
 

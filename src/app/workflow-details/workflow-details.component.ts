@@ -4,6 +4,8 @@ import { WorkflowService } from '../services/workflow.service';
 import { PageService } from '../services/page.service';
 import { RoutesService } from '../services/routes.service';
 import { IntentService } from '../services/intents.service';
+import { LoaderService } from '../services/loader.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-workflow-details',
@@ -23,16 +25,17 @@ export class WorkflowDetailsComponent implements OnInit {
     private workflowService: WorkflowService,
     private pageService: PageService,
     private routesService: RoutesService,
-    private intentService: IntentService
-  ) { }
+    private intentService: IntentService,
+    private loaderService: LoaderService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.agentId = params.get('id') || '';
       if (!this.agentId) {
-        console.error('Agent ID is required to create a flow');
+        this.toastService.error('Agent ID is required to create a workflow');
       } else {
-        console.log('Agent ID:', this.agentId);
         this.loadIntents();
       }
     });
@@ -44,12 +47,12 @@ export class WorkflowDetailsComponent implements OnInit {
         const defaultWelcomeIntent = intents.find(intent => intent.displayName === 'Default Welcome Intent');
         if (defaultWelcomeIntent) {
           this.defaultIntentId = defaultWelcomeIntent.intentId;
-          console.log('Default Welcome Intent ID:', this.defaultIntentId);
         } else {
-          console.error('Default Welcome Intent not found');
+          this.toastService.warning('Default Welcome Intent not found');
         }
       },
       (error) => {
+        this.toastService.error('Error loading intents');
         console.error('Error loading intents:', error);
       }
     );
@@ -57,7 +60,7 @@ export class WorkflowDetailsComponent implements OnInit {
 
   createFlow(): void {
     if (!this.agentId) {
-      console.error('Agent ID is required to create a flow');
+      this.toastService.error('Agent ID is required to create a workflow');
       return;
     }
 
@@ -67,27 +70,26 @@ export class WorkflowDetailsComponent implements OnInit {
       description: this.newFlowDescription || 'No description provided.',
     };
 
+    this.loaderService.show();
     this.workflowService.createFlow(flowData).subscribe(
       (response: any) => {
         this.fullflowId = response?.flowId;
         if (this.fullflowId) {
-          console.log('Flow created successfully. Full flow ID:', this.fullflowId);
-          const flowId = this.fullflowId.split('/flows/')[1];  // Extracting flowId part
+          const flowId = this.fullflowId.split('/flows/')[1];
           if (flowId) {
-            console.log('Extracted Flow ID:', flowId);
             this.createDefaultPage(flowId);
           } else {
-            console.error('Failed to parse flow ID:', this.fullflowId);
+            this.toastService.error('Failed to parse flow ID');
           }
         } else {
-          console.error('Flow ID is undefined in the response:', response);
-          alert('Failed to retrieve the flow ID. Please try again.');
+          this.toastService.error('Flow ID is undefined in the response');
         }
       },
       (error) => {
-        console.error('Error creating flow:', error);
-        alert('Failed to create flow. Please try again.');
-      }
+        this.toastService.error('Failed to create workflow');
+        console.error('Error creating workflow:', error);
+      },
+      () => this.loaderService.hide()
     );
   }
 
@@ -100,22 +102,21 @@ export class WorkflowDetailsComponent implements OnInit {
       (pageResponse: any) => {
         const pageId = pageResponse.pageId;
         if (pageId) {
-          console.log('Default page created:', pageResponse);
           this.createDefaultRouting(flowId, pageId);
         } else {
-          console.error('Failed to retrieve page ID:', pageResponse);
+          this.toastService.error('Failed to retrieve page ID');
         }
       },
       (error) => {
+        this.toastService.error('Failed to create default page');
         console.error('Error creating default page:', error);
-        alert('Failed to create default page. Please try again.');
       }
     );
   }
 
   private createDefaultRouting(flowId: string, pageId: string): void {
     if (!this.defaultIntentId) {
-      console.error('Default Intent ID is not available');
+      this.toastService.error('Default Intent ID is not available');
       return;
     }
 
@@ -129,15 +130,14 @@ export class WorkflowDetailsComponent implements OnInit {
 
     this.routesService.createTransitionRoute(this.agentId, flowId, defaultRouteData).subscribe(
       (routeResponse: any) => {
-        console.log('Default route created:', routeResponse);
-
-        // Navigate to the workflow page after route creation
+        this.toastService.success('Workflow created successfully');
         this.router.navigate([`/Workflow/${this.agentId}/${flowId}`]);
       },
       (error) => {
+        this.toastService.error('Failed to create default routing');
         console.error('Error creating default routing:', error);
-        alert('Failed to create default routing. Please try again.');
-      }
+      },
+      () => this.loaderService.hide() // Ensure loader is hidden
     );
   }
 }
